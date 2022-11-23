@@ -2,7 +2,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import { FC, useRef } from "react";
 import { Mesh, TextureLoader } from "three";
 
-const Sun: FC<any> = () => {
+const Sun: FC<{ scale?: number }> = ({ scale = 10 }) => {
   const sunRef = useRef<Mesh>(null!);
   const sunTexture = useLoader(TextureLoader, "8k_sun.jpg");
 
@@ -11,9 +11,9 @@ const Sun: FC<any> = () => {
   });
 
   return (
-    <mesh position={[0, 0, 0]} ref={sunRef} scale={10}>
+    <mesh position={[0, 0, 0]} ref={sunRef}>
       <pointLight />
-      <sphereGeometry />
+      <sphereGeometry args={[scale / 2, 100, 100]} />
       <meshPhysicalMaterial
         emissiveMap={sunTexture}
         emissive={"yellow"}

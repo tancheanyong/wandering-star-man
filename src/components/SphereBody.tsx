@@ -8,7 +8,7 @@ type SphereBodyProps = {
   rotationSpeed: number;
   atmosRotationSpeed: number;
   mapTexture: string;
-  rotation?: Euler;
+  axisRotation?: Euler;
   atmosMapTexture?: string;
 
   onClick?: () => void;
@@ -21,7 +21,7 @@ const SphereBody: FC<SphereBodyProps> = ({
   rotationSpeed,
   atmosRotationSpeed = 0,
   mapTexture,
-  rotation = [0, 0, 0],
+  axisRotation = [0, 0, 0],
   atmosMapTexture,
 }) => {
   const sphereBaseRef = useRef<Mesh>(null!);
@@ -43,15 +43,10 @@ const SphereBody: FC<SphereBodyProps> = ({
   );
 
   return (
-    // rotation uses Euler which is in radians
-    <group
-      onClick={onClick}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-    >
+    // axisRotation uses Euler which is in radians
+    <group onClick={onClick} position={position} rotation={axisRotation}>
       <mesh ref={sphereBaseRef}>
-        <sphereGeometry />
+        <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial map={sphereBaseMapTexture} />
       </mesh>
       {atmosMapTexture ? (

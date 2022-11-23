@@ -6,7 +6,13 @@ import {
   useThree,
   Vector3,
 } from "@react-three/fiber";
-import { Bounds, useBounds, Effects, OrbitControls } from "@react-three/drei";
+import {
+  Bounds,
+  useBounds,
+  Effects,
+  OrbitControls,
+  FlyControls,
+} from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import "./Space.scss";
 import { FC, Suspense, useEffect, useRef, useState } from "react";
@@ -42,7 +48,7 @@ const Space = () => {
             atmosRotationSpeed={planet.atmosRotationSpeed}
             mapTexture={planet.mapTexture}
             atmosMapTexture={planet.atmosMapTexture}
-            rotation={planet.rotation}
+            axisRotation={planet.axisRotation}
           />
         ))}
       </Canvas>
