@@ -12,6 +12,7 @@ import "./Space.scss";
 import { FC, Suspense, useEffect, useRef, useState } from "react";
 import Sun from "./Sun";
 import SphereBody from "./SphereBody";
+import planets from "../planets";
 
 // Let React accept new primitives component from UnrealBloomPass
 extend({ UnrealBloomPass });
@@ -26,7 +27,7 @@ declare module "@react-three/fiber" {
 const Space = () => {
   return (
     <div className="space">
-      <Canvas camera={{ position: [0, 0, 8] }}>
+      <Canvas camera={{ position: [0, 0, 30] }}>
         <OrbitControls />
         <Effects disableGamma>
           <unrealBloomPass strength={1.5} radius={1} />
@@ -34,14 +35,16 @@ const Space = () => {
         {/* <ambientLight intensity={1} /> */}
         {/* TODO:  Save each planet info in json and render accordingly */}
         <Sun />
-        <SphereBody
-          position={[8, 0, 0]}
-          rotationSpeed={0.2}
-          atmosRotationSpeed={0.15}
-          mapTexture={"Earth/earth_atmos_4096.jpg"}
-          atmosMapTexture={"Earth/earth_clouds_2048.png"}
-          rotation={[0, 0, 0.403]}
-        />
+        {planets.map((planet) => (
+          <SphereBody
+            position={planet.position}
+            rotationSpeed={planet.rotationSpeed}
+            atmosRotationSpeed={planet.atmosRotationSpeed}
+            mapTexture={planet.mapTexture}
+            atmosMapTexture={planet.atmosMapTexture}
+            rotation={planet.rotation}
+          />
+        ))}
       </Canvas>
     </div>
   );

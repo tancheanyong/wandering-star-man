@@ -11,7 +11,7 @@ const Sun: FC<any> = () => {
   });
 
   return (
-    <mesh position={[0, 0, 0]} ref={sunRef}>
+    <mesh position={[0, 0, 0]} ref={sunRef} scale={10}>
       <pointLight />
       <sphereGeometry />
       <meshPhysicalMaterial
