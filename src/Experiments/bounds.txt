@@ -1,0 +1,23 @@
+ 
+// This component wraps children in a group with a click handler
+// Clicking any object will refresh and fit bounds
+const SelectToZoom: FC<any> = ({ children }) => {
+  const api = useBounds();
+  return (
+    <group
+      onClick={(e) => (
+        e.stopPropagation(), e.delta <= 2 && api.refresh(e.object).fit()
+      )}
+      onPointerMissed={(e) => e.button === 0 && api.refresh().fit()}
+    >
+      {children}
+    </group>
+  );
+};
+ 
+ <Bounds observe margin={1.2}>
+            <SelectToZoom>
+              <Earth position={[8, 0, 0]} />
+              <Earth position={[3, 0, 0]} />
+            </SelectToZoom>
+</Bounds>

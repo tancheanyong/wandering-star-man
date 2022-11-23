@@ -1,12 +1,16 @@
+import { Vector3 } from "@react-three/fiber";
+import { FC, useState } from "react";
 import EarthBase from "./EarthBase";
 import EarthClouds from "./EarthClouds";
 
-const Earth = () => {
+type EarthProps = { position: Vector3; onClick?: () => void };
+
+const Earth: FC<EarthProps> = ({ position, onClick }) => {
   return (
-    <>
-      <EarthBase />
-      <EarthClouds />
-    </>
+    <group onClick={onClick}>
+      <EarthBase position={position} />
+      <EarthClouds position={position} />
+    </group>
   );
 };
 
