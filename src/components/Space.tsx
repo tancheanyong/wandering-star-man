@@ -31,15 +31,16 @@ const Space = () => {
         <Effects disableGamma>
           <unrealBloomPass strength={1.5} radius={1} />
         </Effects>
-        {/* <ambientLight intensity={0.1} /> */}
+        {/* <ambientLight intensity={1} /> */}
         {/* TODO:  Save each planet info in json and render accordingly */}
         <Sun />
         <SphereBody
-          position={[3, 0, 0]}
+          position={[8, 0, 0]}
           rotationSpeed={0.2}
           atmosRotationSpeed={0.15}
           mapTexture={"Earth/earth_atmos_4096.jpg"}
           atmosMapTexture={"Earth/earth_clouds_2048.png"}
+          rotation={[0, 0, 0.403]}
         />
       </Canvas>
     </div>
