@@ -13,7 +13,7 @@ const Sun: FC<{ scale?: number }> = ({ scale = 10 }) => {
   return (
     <mesh position={[0, 0, 0]} ref={sunRef}>
       <pointLight />
-      <sphereGeometry args={[scale / 2, 100, 100]} />
+      <sphereGeometry args={[scale / 2, 40, 40]} />
       <meshPhysicalMaterial
         emissiveMap={sunTexture}
         emissive={"yellow"}

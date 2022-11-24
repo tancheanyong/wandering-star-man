@@ -1,6 +1,6 @@
 import { Euler, useFrame, useLoader, Vector3 } from "@react-three/fiber";
-import React, { FC, useRef } from "react";
-import { Mesh, TextureLoader } from "three";
+import React, { FC, MutableRefObject, Ref, useRef } from "react";
+import { BufferGeometry, Group, Material, Mesh, TextureLoader } from "three";
 
 type SphereBodyProps = {
   position: Vector3;
@@ -10,7 +10,6 @@ type SphereBodyProps = {
   mapTexture: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
-
   onClick?: () => void;
 };
 
@@ -46,12 +45,12 @@ const SphereBody: FC<SphereBodyProps> = ({
     // axisRotation uses Euler which is in radians
     <group onClick={onClick} position={position} rotation={axisRotation}>
       <mesh ref={sphereBaseRef}>
-        <sphereGeometry args={[scale / 2, 100, 100]} />
+        <sphereGeometry args={[scale / 2, 40, 40]} />
         <meshPhysicalMaterial map={sphereBaseMapTexture} />
       </mesh>
       {atmosMapTexture ? (
         <mesh scale={1.05} ref={sphereAtmosRef}>
-          <sphereGeometry />
+          <sphereGeometry args={[scale / 2, 40, 40]} />
           <meshLambertMaterial map={sphereAtmosMapTexture} transparent />
         </mesh>
       ) : null}
