@@ -38,8 +38,8 @@ const SelectToZoom: FC<any> = ({ children }) => {
           e.stopPropagation();
           api
             .to({
-              position: [x + planetRadius * 2, y, planetRadius * 2 + 1],
-              target: [x + planetRadius * 2, y, z],
+              position: [x - planetRadius * 1.5, y, planetRadius * 2 + 1],
+              target: [x + planetRadius * 3.5, y, z],
             })
             .refresh();
         }
