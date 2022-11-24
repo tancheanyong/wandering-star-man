@@ -4,7 +4,7 @@ import { Mesh, TextureLoader } from "three";
 
 const Sun: FC<{ scale?: number }> = ({ scale = 10 }) => {
   const sunRef = useRef<Mesh>(null!);
-  const sunTexture = useLoader(TextureLoader, "8k_sun.jpg");
+  const sunTexture = useLoader(TextureLoader, "8k_sun-low.jpg");
 
   useFrame(({ clock }) => {
     sunRef.current.rotation.y = clock.getElapsedTime() * 0.2;

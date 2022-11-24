@@ -20,7 +20,7 @@ const planets: PlanetData[] = [
     atmosRotationSpeed: 0.15,
     mapTexture: "Earth/earth_atmos_4096.jpg",
     axisRotation: [0, 0, 0.403],
-    atmosMapTexture: "Earth/earth_clouds_2048.png",
+    atmosMapTexture: "Earth/earth_clouds_2048-low.png",
   },
 ];
 
