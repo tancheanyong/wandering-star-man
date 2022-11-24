@@ -10,12 +10,13 @@ type PlanetData = {
   normalMapTexture?: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
+  ring?: boolean;
 };
 
 const planets: PlanetData[] = [
   {
     id: "Mercury",
-    position: [7, 0, 0],
+    position: [-10, 0, 0],
     scale: 0.5,
     rotationSpeed: 0.1,
     atmosRotationSpeed: 0.15,
@@ -33,7 +34,7 @@ const planets: PlanetData[] = [
   },
   {
     id: "Earth",
-    position: [15, 0, 0],
+    position: [-15, 0, 0],
     scale: 1,
     rotationSpeed: 0.2,
     atmosRotationSpeed: 0.15,
@@ -43,7 +44,7 @@ const planets: PlanetData[] = [
   },
   {
     id: "Mars",
-    position: [20, 0, 0],
+    position: [15, 0, 0],
     scale: 0.8,
     rotationSpeed: 0.1,
     atmosRotationSpeed: 0.15,
@@ -53,7 +54,7 @@ const planets: PlanetData[] = [
   },
   {
     id: "Jupiter",
-    position: [25, 0, 0],
+    position: [-25, 0, 0],
     scale: 5,
     rotationSpeed: 0.5,
     atmosRotationSpeed: 0,
@@ -62,16 +63,17 @@ const planets: PlanetData[] = [
   },
   {
     id: "Saturn",
-    position: [30, 0, 0],
+    position: [25, 0, 0],
     scale: 4,
     rotationSpeed: 0.5,
     atmosRotationSpeed: 0,
     mapTexture: "Earth/saturnmap.jpg",
     axisRotation: [0, 0, 0],
+    ring: true,
   },
   {
     id: "Uranus",
-    position: [35, 0, 0],
+    position: [-35, 0, 0],
     scale: 3,
     rotationSpeed: 0.5,
     atmosRotationSpeed: 0,
@@ -80,7 +82,7 @@ const planets: PlanetData[] = [
   },
   {
     id: "Neptune",
-    position: [40, 0, 0],
+    position: [35, 0, 0],
     scale: 3,
     rotationSpeed: 0.5,
     atmosRotationSpeed: 0,
@@ -89,7 +91,7 @@ const planets: PlanetData[] = [
   },
   {
     id: "Pluto",
-    position: [40, 0, 0],
+    position: [-40, 0, 0],
     scale: 0.3,
     rotationSpeed: 0.5,
     atmosRotationSpeed: 0,

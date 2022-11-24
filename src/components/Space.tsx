@@ -36,9 +36,12 @@ const SelectToZoom: FC<any> = ({ children }) => {
           const planetRadius = (clickTarget as Mesh<SphereGeometry>).geometry
             .parameters.radius;
           e.stopPropagation();
+          const positionOffset =
+            x > 0 ? planetRadius * -1.5 : planetRadius * 1.5;
+          const targetOffset = x > 0 ? planetRadius * 3.5 : planetRadius * -3.5;
           api.to({
-            position: [x - planetRadius * 1.5, y, planetRadius * 2],
-            target: [x + planetRadius * 3.5, y, z],
+            position: [x + positionOffset, y, planetRadius * 2],
+            target: [x + targetOffset, y, z],
           });
         }
       }}
@@ -74,7 +77,7 @@ const Space = () => {
         {/* https://threejs.org/docs/#manual/en/introduction/How-to-use-post-processing */}
         {/* https://codesandbox.io/s/r3f-selective-bloom-7mfqw?file=/src/index.js:297-307 */}
         <Effects disableGamma>
-          {/* <unrealBloomPass strength={1.5} radius={1} /> */}
+          <unrealBloomPass strength={1} radius={1} />
         </Effects>
         {/* <ambientLight intensity={1} /> */}
         {/* TODO:  Save each planet info in json and render accordingly */}
@@ -92,6 +95,7 @@ const Space = () => {
                 normalMapTexture={planet.normalMapTexture}
                 atmosMapTexture={planet.atmosMapTexture}
                 axisRotation={planet.axisRotation}
+                ring={planet.ring}
               />
             ))}
           </SelectToZoom>
