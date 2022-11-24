@@ -1,6 +1,7 @@
 import { Euler, Vector3 } from "@react-three/fiber";
 
 type PlanetData = {
+  id: string;
   position: Vector3;
   scale?: number;
   rotationSpeed: number;
@@ -12,6 +13,7 @@ type PlanetData = {
 
 const planets: PlanetData[] = [
   {
+    id: "Earth",
     position: [30, 0, 0],
     scale: 1,
     rotationSpeed: 0.2,
