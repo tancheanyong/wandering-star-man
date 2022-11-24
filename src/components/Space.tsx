@@ -36,15 +36,19 @@ const SelectToZoom: FC<any> = ({ children }) => {
           const planetRadius = (clickTarget as Mesh<SphereGeometry>).geometry
             .parameters.radius;
           e.stopPropagation();
-          api
-            .to({
-              position: [x - planetRadius * 1.5, y, planetRadius * 2 + 1],
-              target: [x + planetRadius * 3.5, y, z],
-            })
-            .refresh();
+          api.to({
+            position: [x - planetRadius * 1.5, y, planetRadius * 2],
+            target: [x + planetRadius * 3.5, y, z],
+          });
         }
       }}
-      onPointerMissed={(e) => e.button === 0 && api.refresh().fit()}
+      onPointerMissed={(e) =>
+        e.button === 0 &&
+        api.to({
+          position: [0, 0, 30],
+          target: [0, 0, 0],
+        })
+      }
     >
       {children}
     </group>
@@ -66,8 +70,11 @@ const Space = () => {
         />
         {/* Turning on orbitControls will interfere with Bounds */}
         {/* <OrbitControls /> */}
+        {/* TODO:  Figure out how to do selective bloom with post processing */}
+        {/* https://threejs.org/docs/#manual/en/introduction/How-to-use-post-processing */}
+        {/* https://codesandbox.io/s/r3f-selective-bloom-7mfqw?file=/src/index.js:297-307 */}
         <Effects disableGamma>
-          <unrealBloomPass strength={1.5} radius={1} />
+          {/* <unrealBloomPass strength={1.5} radius={1} /> */}
         </Effects>
         {/* <ambientLight intensity={1} /> */}
         {/* TODO:  Save each planet info in json and render accordingly */}
@@ -77,10 +84,12 @@ const Space = () => {
             {planets.map((planet) => (
               <SphereBody
                 key={planet.id}
+                scale={planet.scale}
                 position={planet.position}
                 rotationSpeed={planet.rotationSpeed}
                 atmosRotationSpeed={planet.atmosRotationSpeed}
                 mapTexture={planet.mapTexture}
+                normalMapTexture={planet.normalMapTexture}
                 atmosMapTexture={planet.atmosMapTexture}
                 axisRotation={planet.axisRotation}
               />

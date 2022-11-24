@@ -8,6 +8,7 @@ type SphereBodyProps = {
   rotationSpeed: number;
   atmosRotationSpeed: number;
   mapTexture: string;
+  normalMapTexture?: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
   onClick?: () => void;
@@ -20,6 +21,7 @@ const SphereBody: FC<SphereBodyProps> = ({
   rotationSpeed,
   atmosRotationSpeed = 0,
   mapTexture,
+  normalMapTexture,
   axisRotation = [0, 0, 0],
   atmosMapTexture,
 }) => {
@@ -36,6 +38,10 @@ const SphereBody: FC<SphereBodyProps> = ({
   });
 
   const sphereBaseMapTexture = useLoader(TextureLoader, mapTexture);
+  const normalMap = useLoader(
+    TextureLoader,
+    normalMapTexture ?? "default-map.jpeg"
+  );
   const sphereAtmosMapTexture = useLoader(
     TextureLoader,
     atmosMapTexture ?? "logo192.png"
@@ -45,12 +51,15 @@ const SphereBody: FC<SphereBodyProps> = ({
     // axisRotation uses Euler which is in radians
     <group onClick={onClick} position={position} rotation={axisRotation}>
       <mesh ref={sphereBaseRef}>
-        <sphereGeometry args={[scale / 2, 40, 40]} />
-        <meshPhysicalMaterial map={sphereBaseMapTexture} />
+        <sphereGeometry args={[scale / 2, 100, 100]} />
+        <meshPhysicalMaterial
+          map={sphereBaseMapTexture}
+          normalMap={normalMap}
+        />
       </mesh>
       {atmosMapTexture ? (
         <mesh scale={1.05} ref={sphereAtmosRef}>
-          <sphereGeometry args={[scale / 2, 40, 40]} />
+          <sphereGeometry args={[scale / 2, 100, 100]} />
           <meshLambertMaterial map={sphereAtmosMapTexture} transparent />
         </mesh>
       ) : null}
