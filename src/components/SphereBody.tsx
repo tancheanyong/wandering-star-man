@@ -11,6 +11,7 @@ type SphereBodyProps = {
   normalMapTexture?: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
+  ring?: boolean;
   onClick?: () => void;
 };
 
@@ -23,6 +24,7 @@ const SphereBody: FC<SphereBodyProps> = ({
   mapTexture,
   normalMapTexture,
   axisRotation = [0, 0, 0],
+  ring,
   atmosMapTexture,
 }) => {
   const sphereBaseRef = useRef<Mesh>(null!);
@@ -61,6 +63,12 @@ const SphereBody: FC<SphereBodyProps> = ({
         <mesh scale={1.05} ref={sphereAtmosRef}>
           <sphereGeometry args={[scale / 2, 100, 100]} />
           <meshLambertMaterial map={sphereAtmosMapTexture} transparent />
+        </mesh>
+      ) : null}
+      {ring ? (
+        <mesh rotation={[1.5708, 3.7, 0]}>
+          <ringGeometry args={[scale, scale + 2, 60]} />
+          <meshBasicMaterial color={"yellow"} />
         </mesh>
       ) : null}
     </group>
