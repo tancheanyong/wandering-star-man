@@ -1,0 +1,92 @@
+// const Scene = () => {
+//   const materials = useLoader(MTLLoader, "Earth_2K.mtl");
+//   const [bump, clouds, diffuse, nightLights, oceanMask] = useLoader(
+//     TextureLoader,
+//     [
+//       "Textures/Bump_2K.png",
+//       "Textures/Clouds_2K.png",
+//       "Textures/Diffuse_2K.png",
+//       "Textures/Night_lights_2K.png",
+//       "Textures/Ocean_Mask_2K.png",
+//     ]
+//   );
+//   const obj = useLoader(OBJLoader, "Earth_2K.obj", (loader) => {
+//     materials.preload();
+//     loader.setMaterials(materials);
+//   });
+
+//   const geometry = useMemo(() => {
+//     let g;
+//     obj.traverse((c) => {
+//       if (c.type === "Mesh") {
+//         const _c = c as Mesh;
+//         g = _c.geometry;
+//       }
+//     });
+//     return g;
+//   }, [obj]);
+
+//   useFrame(({ clock }) => {
+//     sceneRef.current.rotation.y = clock.getElapsedTime() * 0.3;
+//   });
+//   const sceneRef = useRef<Mesh>(null!);
+
+//   // I've used meshPhysicalMaterial because the texture needs lights to be seen properly.
+//   return (
+//     <mesh geometry={geometry} scale={0.4} ref={sceneRef}>
+//       <meshPhysicalMaterial
+//         map={diffuse}
+//         displacementMap={bump}
+//         displacementScale={0.4}
+//         bumpScale={2}
+//         bumpMap={bump}
+//         specularColorMap={oceanMask}
+//         // clearcoatMap={clouds}
+//         // normalMap={oceanMask}
+//         // aoMap={oceanMask}
+//       />
+//     </mesh>
+//   );
+
+//   //   return <primitive object={obj} scale={0.4} />;
+// };
+
+// const Clouds = () => {
+//   const materials = useLoader(MTLLoader, "Earth_2K.mtl");
+//   const [bump, clouds, diffuse, nightLights, oceanMask] = useLoader(
+//     TextureLoader,
+//     [
+//       "Textures/Bump_2K.png",
+//       "Textures/earth_clouds_2048.png",
+//       "Textures/Diffuse_2K.png",
+//       "Textures/Night_lights_2K.png",
+//       "Textures/Ocean_Mask_2K.png",
+//     ]
+//   );
+//   const obj = useLoader(OBJLoader, "Earth_2K.obj", (loader) => {
+//     materials.preload();
+//     loader.setMaterials(materials);
+//   });
+
+//   // TODO:  This is bad for some reason, switch to gltf 3d earth when possible
+//   const geometry = useMemo(() => {
+//     let g;
+//     obj.traverse((c) => {
+//       if (c.type === "Mesh") {
+//         const _c = c as Mesh;
+//         g = _c.geometry;
+//       }
+//     });
+//     return g;
+//   }, [obj]);
+
+//   useFrame(({ clock }) => {
+//     cloudRef.current.rotation.y = clock.getElapsedTime() * 0.25;
+//   });
+//   const cloudRef = useRef<Mesh>(null!);
+//   return (
+//     <mesh geometry={geometry} scale={0.41} ref={cloudRef}>
+//       <meshLambertMaterial map={clouds} transparent />
+//     </mesh>
+//   );
+// };
