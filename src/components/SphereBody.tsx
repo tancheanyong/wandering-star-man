@@ -11,7 +11,7 @@ type SphereBodyProps = {
   normalMapTexture?: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
-  ring?: boolean;
+  ringTexture?: string;
   onClick?: () => void;
 };
 
@@ -24,7 +24,7 @@ const SphereBody: FC<SphereBodyProps> = ({
   mapTexture,
   normalMapTexture,
   axisRotation = [0, 0, 0],
-  ring,
+  ringTexture,
   atmosMapTexture,
 }) => {
   const sphereBaseRef = useRef<Mesh>(null!);
@@ -46,13 +46,14 @@ const SphereBody: FC<SphereBodyProps> = ({
   );
   const sphereAtmosMapTexture = useLoader(
     TextureLoader,
-    atmosMapTexture ?? "logo192.png"
+    atmosMapTexture ?? "default-map.jpeg"
   );
+  const ringMap = useLoader(TextureLoader, ringTexture ?? "default-map.jpeg");
 
   return (
     // axisRotation uses Euler which is in radians
     <group onClick={onClick} position={position} rotation={axisRotation}>
-      <mesh ref={sphereBaseRef}>
+      <mesh ref={sphereBaseRef} castShadow>
         <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial
           map={sphereBaseMapTexture}
@@ -65,11 +66,17 @@ const SphereBody: FC<SphereBodyProps> = ({
           <meshLambertMaterial map={sphereAtmosMapTexture} transparent />
         </mesh>
       ) : null}
-      {ring ? (
-        <mesh rotation={[1.5708, 3.7, 0]}>
-          <ringGeometry args={[scale, scale + 2, 60]} />
-          <meshBasicMaterial color={"yellow"} />
-        </mesh>
+      {ringTexture ? (
+        <group>
+          <mesh rotation={[1.5708, 3.7, 0]}>
+            <ringGeometry args={[scale * 0.7, scale, 60]} />
+            <meshPhongMaterial map={ringMap} />
+          </mesh>
+          <mesh rotation={[-1.5708, -3.7, 0]}>
+            <ringGeometry args={[scale * 0.7, scale, 60]} />
+            <meshPhongMaterial map={ringMap} />
+          </mesh>
+        </group>
       ) : null}
     </group>
   );

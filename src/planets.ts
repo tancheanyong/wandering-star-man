@@ -10,7 +10,7 @@ type PlanetData = {
   normalMapTexture?: string;
   axisRotation?: Euler;
   atmosMapTexture?: string;
-  ring?: boolean;
+  ringTexture?: string;
 };
 
 const planets: PlanetData[] = [
@@ -69,7 +69,7 @@ const planets: PlanetData[] = [
     atmosRotationSpeed: 0,
     mapTexture: "Earth/saturnmap.jpg",
     axisRotation: [0, 0, 0],
-    ring: true,
+    ringTexture: "saturnring.png",
   },
   {
     id: "Uranus",

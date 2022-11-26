@@ -12,7 +12,13 @@ import { FC } from "react";
 import Sun from "./Sun";
 import SphereBody from "./SphereBody";
 import planets from "../planets";
-import { Material, Mesh, Object3D, SphereGeometry } from "three";
+import {
+  DirectionalLight,
+  Material,
+  Mesh,
+  Object3D,
+  SphereGeometry,
+} from "three";
 
 // Let React accept new primitives component from UnrealBloomPass
 extend({ UnrealBloomPass });
@@ -95,7 +101,7 @@ const Space = () => {
                 normalMapTexture={planet.normalMapTexture}
                 atmosMapTexture={planet.atmosMapTexture}
                 axisRotation={planet.axisRotation}
-                ring={planet.ring}
+                ringTexture={planet.ringTexture}
               />
             ))}
           </SelectToZoom>
