@@ -3,9 +3,10 @@ import React, { FC, MutableRefObject, Ref, useRef } from "react";
 import { BufferGeometry, Group, Material, Mesh, TextureLoader } from "three";
 
 type SphereBodyProps = {
-  position: Vector3;
+  position: [number, number, number];
   scale?: number;
   rotationSpeed: number;
+  revolutionSpeed: number;
   atmosRotationSpeed: number;
   mapTexture: string;
   normalMapTexture?: string;
@@ -20,6 +21,7 @@ const SphereBody: FC<SphereBodyProps> = ({
   scale = 1,
   onClick,
   rotationSpeed,
+  revolutionSpeed,
   atmosRotationSpeed = 0,
   mapTexture,
   normalMapTexture,
@@ -27,16 +29,24 @@ const SphereBody: FC<SphereBodyProps> = ({
   ringTexture,
   atmosMapTexture,
 }) => {
+  const sphereBodyRef = useRef<Group>(null!);
   const sphereBaseRef = useRef<Mesh>(null!);
   const sphereAtmosRef = useRef<Mesh>(null!);
 
   useFrame(({ clock }) => {
+    // Rotation
     sphereBaseRef.current.rotation.y = clock.getElapsedTime() * rotationSpeed;
 
     if (atmosMapTexture) {
       sphereAtmosRef.current.rotation.y =
         clock.getElapsedTime() * atmosRotationSpeed;
     }
+
+    // Revolution
+    sphereBodyRef.current.position.x =
+      position[0] * Math.cos(clock.getElapsedTime() * revolutionSpeed);
+    sphereBodyRef.current.position.z =
+      position[0] * Math.sin(clock.getElapsedTime() * revolutionSpeed);
   });
 
   const sphereBaseMapTexture = useLoader(TextureLoader, mapTexture);
@@ -52,7 +62,12 @@ const SphereBody: FC<SphereBodyProps> = ({
 
   return (
     // axisRotation uses Euler which is in radians
-    <group onClick={onClick} position={position} rotation={axisRotation}>
+    <group
+      onClick={onClick}
+      position={position}
+      rotation={axisRotation}
+      ref={sphereBodyRef}
+    >
       <mesh ref={sphereBaseRef} castShadow>
         <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial

@@ -96,6 +96,7 @@ const Space = () => {
                 scale={planet.scale}
                 position={planet.position}
                 rotationSpeed={planet.rotationSpeed}
+                revolutionSpeed={planet.revolutionSpeed}
                 atmosRotationSpeed={planet.atmosRotationSpeed}
                 mapTexture={planet.mapTexture}
                 normalMapTexture={planet.normalMapTexture}
