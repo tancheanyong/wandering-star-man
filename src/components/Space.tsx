@@ -54,7 +54,7 @@ const SelectToZoom: FC<any> = ({ children }) => {
       onPointerMissed={(e) =>
         e.button === 0 &&
         api.to({
-          position: [0, 0, 30],
+          position: [0, 20, 30],
           target: [0, 0, 0],
         })
       }
@@ -67,7 +67,7 @@ const SelectToZoom: FC<any> = ({ children }) => {
 const Space = () => {
   return (
     <div className="space">
-      <Canvas camera={{ position: [0, 0, 30] }}>
+      <Canvas camera={{ position: [0, 30, 30], focus: 0 }}>
         <Stars
           radius={200}
           depth={100}
