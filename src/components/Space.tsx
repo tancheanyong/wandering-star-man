@@ -5,6 +5,7 @@ import {
   Effects,
   OrbitControls,
   Stars,
+  Line,
 } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import "./Space.scss";
@@ -91,19 +92,27 @@ const Space = () => {
           <SelectToZoom>
             <Sun />
             {planets.map((planet) => (
-              <SphereBody
-                key={planet.id}
-                scale={planet.scale}
-                position={planet.position}
-                rotationSpeed={planet.rotationSpeed}
-                revolutionSpeed={planet.revolutionSpeed}
-                atmosRotationSpeed={planet.atmosRotationSpeed}
-                mapTexture={planet.mapTexture}
-                normalMapTexture={planet.normalMapTexture}
-                atmosMapTexture={planet.atmosMapTexture}
-                axisRotation={planet.axisRotation}
-                ringTexture={planet.ringTexture}
-              />
+              <group>
+                <mesh rotation={[-1.5708, 0, 0]}>
+                  <ringGeometry
+                    args={[planet.position[0], planet.position[0] + 0.02, 120]}
+                  />
+                  <meshBasicMaterial color={"white"} />
+                </mesh>
+                <SphereBody
+                  key={planet.id}
+                  scale={planet.scale}
+                  position={planet.position}
+                  rotationSpeed={planet.rotationSpeed}
+                  revolutionSpeed={planet.revolutionSpeed}
+                  atmosRotationSpeed={planet.atmosRotationSpeed}
+                  mapTexture={planet.mapTexture}
+                  normalMapTexture={planet.normalMapTexture}
+                  atmosMapTexture={planet.atmosMapTexture}
+                  axisRotation={planet.axisRotation}
+                  ringTexture={planet.ringTexture}
+                />
+              </group>
             ))}
           </SelectToZoom>
         </Bounds>
