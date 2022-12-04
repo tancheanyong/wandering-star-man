@@ -1,10 +1,10 @@
-import { Camera, Canvas, extend, Object3DNode } from "@react-three/fiber";
+import { Canvas, extend, Object3DNode } from "@react-three/fiber";
 import { Bounds, useBounds, Effects, Stars } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import "./Space.scss";
-import { FC } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 import Sun from "./Sun";
-import SphereBody from "./SphereBody";
+import SphereBody from "./SphereBody/SphereBody";
 import planets from "../planets";
 import {
   DirectionalLight,
@@ -13,6 +13,7 @@ import {
   Object3D,
   SphereGeometry,
 } from "three";
+import OrbitalLines from "./OrbitalLines";
 
 // Let React accept new primitives component from UnrealBloomPass
 extend({ UnrealBloomPass });
@@ -29,7 +30,7 @@ type DefaultCamPosType = [number, number, number];
 const DEFAULT_CAM_POS: DefaultCamPosType = [0, 20, 30];
 
 // TODO:  This could be a custom hook
-const SelectToZoom: FC<any> = ({ children }) => {
+const SelectToZoom: FC<any> = ({ setZoomed, children }) => {
   const api = useBounds();
   return (
     <group
@@ -49,12 +50,16 @@ const SelectToZoom: FC<any> = ({ children }) => {
             position: [x + positionOffset, y, planetRadius * 2],
             target: [x + targetOffset, y, z],
           });
+          setZoomed(true);
         }
       }}
-      onPointerMissed={(e) =>
-        e.button === 0 &&
-        api.to({ position: DEFAULT_CAM_POS, target: [0, 0, 0] })
-      }
+      onPointerMissed={(e) => {
+        return (
+          e.button === 0 &&
+          api.to({ position: DEFAULT_CAM_POS, target: [0, 0, 0] }) &&
+          setZoomed(false)
+        );
+      }}
     >
       {children}
     </group>
@@ -62,6 +67,8 @@ const SelectToZoom: FC<any> = ({ children }) => {
 };
 
 const Space = () => {
+  const [zoomed, setZoomed] = useState<boolean>(false);
+
   return (
     <div className="space">
       <Canvas camera={{ position: DEFAULT_CAM_POS, focus: 0 }}>
@@ -84,32 +91,34 @@ const Space = () => {
         </Effects>
         {/* <ambientLight intensity={1} /> */}
         <Bounds observe margin={1.2}>
-          <SelectToZoom>
+          <SelectToZoom setZoomed={setZoomed}>
             <Sun />
-            {planets.map((planet) => (
-              <group>
-                <mesh rotation={[-1.5708, 0, 0]}>
-                  <ringGeometry
-                    args={[planet.position[0], planet.position[0] + 0.02, 120]}
+            <Suspense>
+              {planets.map((planet) => (
+                <group>
+                  {zoomed ? (
+                    <></>
+                  ) : (
+                    <OrbitalLines radius={planet.position[0]} />
+                  )}
+                  <SphereBody
+                    key={planet.id}
+                    name={planet.id}
+                    scale={planet.scale}
+                    position={planet.position}
+                    rotationSpeed={planet.rotationSpeed}
+                    revolutionSpeed={planet.revolutionSpeed}
+                    atmosRotationSpeed={planet.atmosRotationSpeed}
+                    mapTexture={planet.mapTexture}
+                    normalMapTexture={planet.normalMapTexture}
+                    atmosMapTexture={planet.atmosMapTexture}
+                    axisRotation={planet.axisRotation}
+                    ringTexture={planet.ringTexture}
+                    interactiveSphere={!zoomed}
                   />
-                  <meshBasicMaterial color={"white"} />
-                </mesh>
-                <SphereBody
-                  key={planet.id}
-                  name={planet.id}
-                  scale={planet.scale}
-                  position={planet.position}
-                  rotationSpeed={planet.rotationSpeed}
-                  revolutionSpeed={planet.revolutionSpeed}
-                  atmosRotationSpeed={planet.atmosRotationSpeed}
-                  mapTexture={planet.mapTexture}
-                  normalMapTexture={planet.normalMapTexture}
-                  atmosMapTexture={planet.atmosMapTexture}
-                  axisRotation={planet.axisRotation}
-                  ringTexture={planet.ringTexture}
-                />
-              </group>
-            ))}
+                </group>
+              ))}
+            </Suspense>
           </SelectToZoom>
         </Bounds>
       </Canvas>

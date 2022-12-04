@@ -8,6 +8,7 @@ import {
 } from "@react-three/fiber";
 import React, { FC, MutableRefObject, Ref, useRef } from "react";
 import { BufferGeometry, Group, Material, Mesh, TextureLoader } from "three";
+import InteractiveSphere from "./InteractiveSphere";
 
 type SphereBodyProps = {
   name: string;
@@ -21,6 +22,7 @@ type SphereBodyProps = {
   axisRotation?: Euler;
   atmosMapTexture?: string;
   ringTexture?: string;
+  interactiveSphere?: boolean;
   onClick?: () => void;
 };
 
@@ -37,12 +39,11 @@ const SphereBody: FC<SphereBodyProps> = ({
   axisRotation = [0, 0, 0],
   ringTexture,
   atmosMapTexture,
+  interactiveSphere,
 }) => {
   const sphereBodyRef = useRef<Group>(null!);
   const sphereBaseRef = useRef<Mesh>(null!);
   const sphereAtmosRef = useRef<Mesh>(null!);
-
-  const { camera } = useThree();
 
   useFrame(({ clock }) => {
     // Rotation
@@ -82,14 +83,7 @@ const SphereBody: FC<SphereBodyProps> = ({
       <Html>
         <span style={{ color: "white" }}>{name}</span>
       </Html>
-      <mesh quaternion={camera.quaternion}>
-        <ringGeometry args={[1, 1.02, 60]} />
-        <meshBasicMaterial color={"white"} />
-      </mesh>
-      <mesh quaternion={camera.quaternion}>
-        <circleGeometry args={[1, 60]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
+      {interactiveSphere && <InteractiveSphere />}
       <mesh ref={sphereBaseRef} castShadow>
         <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial
