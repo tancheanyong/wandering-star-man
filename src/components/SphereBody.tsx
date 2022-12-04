@@ -1,5 +1,11 @@
 import { Html } from "@react-three/drei";
-import { Euler, useFrame, useLoader, Vector3 } from "@react-three/fiber";
+import {
+  Euler,
+  useFrame,
+  useLoader,
+  useThree,
+  Vector3,
+} from "@react-three/fiber";
 import React, { FC, MutableRefObject, Ref, useRef } from "react";
 import { BufferGeometry, Group, Material, Mesh, TextureLoader } from "three";
 
@@ -35,6 +41,8 @@ const SphereBody: FC<SphereBodyProps> = ({
   const sphereBodyRef = useRef<Group>(null!);
   const sphereBaseRef = useRef<Mesh>(null!);
   const sphereAtmosRef = useRef<Mesh>(null!);
+
+  const { camera } = useThree();
 
   useFrame(({ clock }) => {
     // Rotation
@@ -74,6 +82,14 @@ const SphereBody: FC<SphereBodyProps> = ({
       <Html>
         <span style={{ color: "white" }}>{name}</span>
       </Html>
+      <mesh quaternion={camera.quaternion}>
+        <ringGeometry args={[1, 1.02, 60]} />
+        <meshBasicMaterial color={"white"} />
+      </mesh>
+      <mesh quaternion={camera.quaternion}>
+        <circleGeometry args={[1, 60]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
       <mesh ref={sphereBaseRef} castShadow>
         <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial

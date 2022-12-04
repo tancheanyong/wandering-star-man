@@ -1,4 +1,4 @@
-import { Canvas, extend, Object3DNode } from "@react-three/fiber";
+import { Camera, Canvas, extend, Object3DNode } from "@react-three/fiber";
 import { Bounds, useBounds, Effects, Stars } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import "./Space.scss";
@@ -23,6 +23,12 @@ declare module "@react-three/fiber" {
     unrealBloomPass: Object3DNode<UnrealBloomPass, typeof UnrealBloomPass>;
   }
 }
+
+type DefaultCamPosType = [number, number, number];
+
+const DEFAULT_CAM_POS: DefaultCamPosType = [0, 20, 30];
+
+// TODO:  This could be a custom hook
 const SelectToZoom: FC<any> = ({ children }) => {
   const api = useBounds();
   return (
@@ -47,10 +53,7 @@ const SelectToZoom: FC<any> = ({ children }) => {
       }}
       onPointerMissed={(e) =>
         e.button === 0 &&
-        api.to({
-          position: [0, 20, 30],
-          target: [0, 0, 0],
-        })
+        api.to({ position: DEFAULT_CAM_POS, target: [0, 0, 0] })
       }
     >
       {children}
@@ -61,7 +64,7 @@ const SelectToZoom: FC<any> = ({ children }) => {
 const Space = () => {
   return (
     <div className="space">
-      <Canvas camera={{ position: [0, 30, 30], focus: 0 }}>
+      <Canvas camera={{ position: DEFAULT_CAM_POS, focus: 0 }}>
         <Stars
           radius={200}
           depth={100}
