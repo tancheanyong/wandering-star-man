@@ -1,8 +1,10 @@
+import { Html } from "@react-three/drei";
 import { Euler, useFrame, useLoader, Vector3 } from "@react-three/fiber";
 import React, { FC, MutableRefObject, Ref, useRef } from "react";
 import { BufferGeometry, Group, Material, Mesh, TextureLoader } from "three";
 
 type SphereBodyProps = {
+  name: string;
   position: [number, number, number];
   scale?: number;
   rotationSpeed: number;
@@ -17,6 +19,7 @@ type SphereBodyProps = {
 };
 
 const SphereBody: FC<SphereBodyProps> = ({
+  name,
   position,
   scale = 1,
   onClick,
@@ -68,6 +71,9 @@ const SphereBody: FC<SphereBodyProps> = ({
       rotation={axisRotation}
       ref={sphereBodyRef}
     >
+      <Html>
+        <span style={{ color: "white" }}>{name}</span>
+      </Html>
       <mesh ref={sphereBaseRef} castShadow>
         <sphereGeometry args={[scale / 2, 100, 100]} />
         <meshPhysicalMaterial

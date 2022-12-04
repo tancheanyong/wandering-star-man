@@ -1,12 +1,5 @@
 import { Canvas, extend, Object3DNode } from "@react-three/fiber";
-import {
-  Bounds,
-  useBounds,
-  Effects,
-  OrbitControls,
-  Stars,
-  Line,
-} from "@react-three/drei";
+import { Bounds, useBounds, Effects, Stars } from "@react-three/drei";
 import { UnrealBloomPass } from "three-stdlib";
 import "./Space.scss";
 import { FC } from "react";
@@ -87,7 +80,6 @@ const Space = () => {
           <unrealBloomPass strength={1} radius={1} />
         </Effects>
         {/* <ambientLight intensity={1} /> */}
-        {/* TODO:  Save each planet info in json and render accordingly */}
         <Bounds observe margin={1.2}>
           <SelectToZoom>
             <Sun />
@@ -101,6 +93,7 @@ const Space = () => {
                 </mesh>
                 <SphereBody
                   key={planet.id}
+                  name={planet.id}
                   scale={planet.scale}
                   position={planet.position}
                   rotationSpeed={planet.rotationSpeed}
